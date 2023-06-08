@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Register Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="box">
+    <form autocomplete="off">
+      <h2>Sign Up</h2>
+      <div class="inputBox">
+        <input type="email" id="email" required="required" autocomplete="off" />
+        <span>Email</span>
+        <i></i>
+      </div>
+      <div class="inputBox">
+        <input type="text" id="name" required="required" autocomplete="off" />
+        <span>Userame</span>
+        <i></i>
+      </div>
+      <div class="inputBox">
+        <input type="password" id="password" required="required" autocomplete="off" />
+        <span>Password</span>
+        <i></i>
+      </div>
+      <div class="inputBox">
+        <input type="password" id="password2" required="required" autocomplete="off" />
+        <span>Confirm Password</span>
+        <i></i>
+      </div>
+      <div class="links">
+        <a href="login.html">Already Signedup? Login Here</a>
+      </div>
+      <input type="button" onclick="adduser()" value="Register" />
+      <!-- <button onclick="adduser()">Register</button> -->
+    </form>
+  </div>
+</body>
+<script src="./js/signup.js"></script>
+
+</html>
