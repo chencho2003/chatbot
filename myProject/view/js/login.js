@@ -1,35 +1,36 @@
-function getIn() {
-    var data2 = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        password2 : document.getElementById("password2").value
+function login(){
+    console.log("oks")
+    var data = {
+        email : document.getElementById("email").value,
+        password:document.getElementById("password").value
+     
     }
-
-    var mail = data2.email;
-    if (mail == '') {
-        alert("Please can you add your email")
-        return
-    } else if (data2.password == '') {
-        alert('password is required')
-        return
-    } else if (data2.password2 == !data2.password){
-        alert("password doest match!")
-    }
-    
-    fetch('/login', {
-        method: "POST",
-        body: JSON.stringify(data2),
+    fetch("/login",{
+        method:"POST",
+        body:JSON.stringify(data),
         headers: { "content-type": "application/json; charset=UTF-8" }
-    }).then(response => {
-        if (response.status == 200) {
-            // fetch('/signup' + uname)
-            //     .then(response => response.text())
-            window.location.href = "chat.html"
-        } else {
-            throw new Error(response.statusText)
+    }).then(response =>{
+        if (response.status==200){
+            alert("login successful")
+            window.location.href = "../chat.html"
+            // window.open("../chat.html","_self")
+        }else if (response.status==401){
+            alert("invalid login")
+        }else{
+            throw new Error(response)
         }
-    }).catch(e => {
+    })
+}
+
+function Logout(){
+    fetch("/logout")
+    .then(res => {
+        if (res.ok){
+            window.open("index.html","_self")
+        }else{
+            throw new Error(res.statusText)
+        }
+    }).catch(e =>{
         alert(e)
     })
-
 }

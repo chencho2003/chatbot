@@ -1,7 +1,7 @@
 package model
 
 import (
-	"fmt"
+
 	"myProject/datastore/postgres"
 )
 
@@ -20,15 +20,9 @@ func (s *User) Create() error {
 	_, err := postgres.Db.Exec(queryInsert, s.Username, s.Email, s.Password)
 	return err
 }
-func (s *User) CheckIn() error {
-	//_ means ignore the variable
-	_,err := postgres.Db.Query(queryData, s.Email, s.Password)
-	fmt.Println(err)
-	//row = nil
-	if err != nil {
-		//err = error
-		return err
-	}
-	//if it is successful return nil
-	return nil
+
+func (a *User) Check(email string) error {
+	const queryCheck = "Select * from userdata where email = $1;"
+	err := postgres.Db.QueryRow(queryCheck,email).Scan(&a.Username,&a.Email,&a.Password)
+	return err
 }

@@ -1,11 +1,13 @@
 package controller
 
 import (
+	"database/sql"
 	"encoding/json"
 	"myProject/model"
 	"myProject/utils/httpResp"
 	"net/http"
 	"myProject/datastore/postgres"
+	"fmt"
 )
 
 
@@ -30,36 +32,33 @@ func Adduser(w http.ResponseWriter, r *http.Request) {
 }
 
 // use capital function Name to be able call outside
-
+var admin model.User
 func Loginhandler(w http.ResponseWriter, r *http.Request) {
-	//storing the dataStored
-	var stud model.User
-
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&stud)
-
-	if err != nil {
-		httpResp.RespondWithError(w, http.StatusBadRequest, err.Error())
-	}
-	//checking user credaintials
-	loginErr := stud.CheckIn()
-
-	if loginErr != nil {
-		// switch loginErr {
-		// case sql.ErrNoRows:
-		// 	httpResp.RespondWithError(w, http.StatusNotFound, "user not found")
-		// 	return
-		// default:
-		// 	httpResp.RespondWithError(w, http.StatusBadRequest, err.Error())
-		// 	return
-
-		// }
-		httpResp.RespondWithError(w, http.StatusBadRequest, err.Error())
+	if err := json.NewDecoder(r.Body).Decode(&admin); err != nil{
+		httpResp.RespondWithError(w,http.StatusBadRequest,"invalid json body")
 		return 
-
 	}
-	//statusok 200
-	httpResp.RespondWithJSON(w, http.StatusOK, map[string]string{"message": "Success"})
+	defer r.Body.Close()
+	email := admin.Email
+	var admin2 model.User
+	loginErr := admin2.Check(email)
+
+	if loginErr != nil{
+		switch loginErr{
+		case sql.ErrNoRows:
+			httpResp.RespondWithError(w,http.StatusUnauthorized,"invalid login")
+		default:
+			httpResp.RespondWithError(w,http.StatusBadRequest,"error in database")
+		}
+		return 
+	}
+	fmt.Println(admin.Password,"requst")
+	fmt.Println(admin2.Password,"database")
+	if admin.Password != admin2.Password{
+		httpResp.RespondWithError(w,http.StatusUnauthorized,"invalid login")
+		return 
+	}
+httpResp.RespondWithJSON(w,http.StatusOK,map[string]string{"message":"successful"})
 }
 func UpdatePassword(w http.ResponseWriter, r *http.Request) {
 	var stud model.User

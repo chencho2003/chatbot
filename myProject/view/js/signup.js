@@ -1,7 +1,6 @@
 window = function () {
     fetch('/')
         .then(response => response.text())
-
 }
 
 function adduser() {

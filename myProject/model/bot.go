@@ -4,6 +4,7 @@ import (
 	"myProject/datastore/postgres"
 	"database/sql"
 	"github.com/pkg/errors"
+	"fmt"
 )
 
 type Bot struct {
@@ -14,7 +15,7 @@ type Bot struct {
 const (
 	queryQNA   = "INSERT INTO bot(question,answer) VALUES($1, $2);"
 	deleteQNA = "DELETE FROM bot WHERE id = $1;"
-	accessingQNA = "SELECT answer FROM bot WHERE question LIKE $1  "
+	accessingQNA = "SELECT answer FROM bot WHERE question ILIKE $1 LIMIT 1"
 	// accessingQNA := "SELECT answer FROM bot WHERE similarity(question, $1) > 0.3 ORDER BY similarity(question, $1) DESC LIMIT 1"
 
 	// queryData = "SELECT * from userdata WHERE email = $1 AND password = $2"
@@ -33,6 +34,9 @@ func (s *Bot) DeleteData() error {
 // }
 
 func (s *Bot) Accessing() error {
+	
+	fmt.Println(s.Question)
+
 	rows, err := postgres.Db.Query(accessingQNA, "%"+s.Question+"%")
 	if err != nil {
 		return errors.Wrap(err, "error executing query")

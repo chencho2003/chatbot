@@ -67,12 +67,14 @@ func Deleting(w http.ResponseWriter, r *http.Request) {
 // }
 
 func Chat(w http.ResponseWriter, r *http.Request) {
-	question := r.FormValue("question")
-	chats := model.Bot{
-		Question: question,
+	var QNA model.Bot
+	// fmt.Println(stud)
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&QNA)
+	if err != nil {
+		httpResp.RespondWithError(w, http.StatusBadRequest, "invalid json body")
 	}
-
-	getErr := chats.Accessing()
+	getErr := QNA.Accessing()
 
 	if getErr != nil {
 		switch getErr {
@@ -82,7 +84,7 @@ func Chat(w http.ResponseWriter, r *http.Request) {
 			httpResp.RespondWithError(w, http.StatusInternalServerError, getErr.Error())
 		}
 	} else {
-		httpResp.RespondWithJSON(w, http.StatusOK, chats)
+		httpResp.RespondWithJSON(w, http.StatusOK, QNA)
 	}
 }
 
