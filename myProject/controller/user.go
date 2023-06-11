@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"myProject/datastore/postgres"
 	"fmt"
+	"time"
 )
 
 
@@ -33,7 +34,11 @@ func Adduser(w http.ResponseWriter, r *http.Request) {
 
 // use capital function Name to be able call outside
 var admin model.User
+
 func Loginhandler(w http.ResponseWriter, r *http.Request) {
+	const (
+		StatusMyCustomCode = 480
+	)
 	if err := json.NewDecoder(r.Body).Decode(&admin); err != nil{
 		httpResp.RespondWithError(w,http.StatusBadRequest,"invalid json body")
 		return 
@@ -58,7 +63,21 @@ func Loginhandler(w http.ResponseWriter, r *http.Request) {
 		httpResp.RespondWithError(w,http.StatusUnauthorized,"invalid login")
 		return 
 	}
-httpResp.RespondWithJSON(w,http.StatusOK,map[string]string{"message":"successful"})
+	cookie := http.Cookie{
+		Name: "admin-cookie",
+		Value: "#@chatbotcoolazha",
+		Expires: time.Now().Add(30 * time.Minute),
+		Secure: true,
+	}
+	//set cookie and send back to client
+	http.SetCookie(w,&cookie)
+	if admin.Email == "admin@gmail.com"{
+		httpResp.RespondWithError(w,StatusMyCustomCode,"admin")
+		return 
+	}
+	//create a cookie
+
+	httpResp.RespondWithJSON(w,http.StatusOK,map[string]string{"message":"successful"})
 }
 func UpdatePassword(w http.ResponseWriter, r *http.Request) {
 	var stud model.User

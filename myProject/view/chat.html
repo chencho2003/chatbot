@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CHAT</title>
-    <link rel="stylesheet" href="./css/chat.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="name">
-        <span class="name1">ChatBot by</span><span class="black"> AZHA</span
-        ><span class="yellow">BOT</span>
-      </h1>
-      <img src="./images/chats.svg" class="chats" alt="" />
-      <div class="chatBox">
-        <input type="text" placeholder="Enter a question" class="input" />
-        <span class="btn">SEND</span>
-      </div>
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Bot</title>
+  <link rel="stylesheet" href="chat.css">
+  <script src="./js/cookies.js"></script>
+</head>
+<body>
+  <div class="logo" ><img src="./images/logo1.svg" alt=""></div>
+  <div class="chat-container">
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type your message...">
+      <button id="sendButton">Send</button>
     </div>
-  </body>
+  </div>
+  <div id="cookieMessage" style="display: none;">
+    Cookies are disabled. Please enable cookies to access this website.
+  </div>
+
+  <script src="./js/chat.js"></script>
+</body>
 </html>

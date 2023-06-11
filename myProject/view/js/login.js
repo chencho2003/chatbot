@@ -1,36 +1,33 @@
-function login(){
-    console.log("oks")
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+  
+    console.log("oks");
     var data = {
-        email : document.getElementById("email").value,
-        password:document.getElementById("password").value
-     
-    }
-    fetch("/login",{
-        method:"POST",
-        body:JSON.stringify(data),
-        headers: { "content-type": "application/json; charset=UTF-8" }
-    }).then(response =>{
-        if (response.status==200){
-            alert("login successful")
-            window.location.href = "../chat.html"
-            // window.open("../chat.html","_self")
-        }else if (response.status==401){
-            alert("invalid login")
-        }else{
-            throw new Error(response)
-        }
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    };
+  
+    fetch("/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "content-type": "application/json; charset=UTF-8" }
     })
-}
-
-function Logout(){
-    fetch("/logout")
-    .then(res => {
-        if (res.ok){
-            window.open("index.html","_self")
-        }else{
-            throw new Error(res.statusText)
+      .then(function(response) {
+        if (response.status == 200) {
+          
+          window.location.href = "../chat.html";
+        } else if (response.status == 480) {
+          alert("admin login successful");
+          window.location.href = "../admin.html"
         }
-    }).catch(e =>{
-        alert(e)
-    })
-}
+        else if (response.status == 401) {
+          alert("Invalid login");
+        } else {
+          throw new Error(response.statusText);
+        }
+      })
+      .catch(function(error) {
+        alert(error);
+      });
+  });
+  

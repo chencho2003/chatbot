@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" type="text/css" href="./css/stlye.css" />
+    <script src="./js/cookies.js"></script>
+  </head>
+  <body>
+    <header>
+      <img src="./images/logo1.svg" alt="Logo" />
+      <h1>Admin Panel</h1>
+    </header>
+
+    <section id="add-question">
+      <h2>Add Question</h2>
+      <form id="add-form">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question" />
+        <br />
+        <label for="answer">Answer:</label>
+        <input type="text" id="answer" name="answer" />
+        <br />
+        <button type="submit" onclick="teach()">Add</button>
+      </form>
+    </section>
+
+    <table id="botTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Question</th>
+          <th>Answer</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script src="./js/script.js"></script>
+  </body>
+</html>

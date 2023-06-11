@@ -24,6 +24,8 @@ func InitializerRoutes() {
 	router.HandleFunc("/delete", controller.Deleting).Methods("DELETE")
 	//accessing data
 	router.HandleFunc("/chat", controller.Chat).Methods("POST")
+	router.HandleFunc("/getall", controller.AllData).Methods("GET")
+	router.HandleFunc("/updateqna",controller.UpdateQNA).Methods("PUT")
 
 
 	//serving the static files
